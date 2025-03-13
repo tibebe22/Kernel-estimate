@@ -1,15 +1,15 @@
 # Kernel-estimate
-Author: Hang-Hyun Jo and Tibebe Birhanu (tibebebirhanu@gmail.com)
+Authors: Hang-Hyun Jo and Tibebe Birhanu (tibebebirhanu@gmail.com)
 
 Updated date: 13 March 2025
 
-Code developed for the research paper: Tibebe Birhanu and Hang-Hyun Jo, "Maximum likelihood estimation of burst-merging kernels for bursty time series." This repository includes implementations and tools used to estimate burst-merging kernels in bursty time series data.
+Codes developed for the research paper: Tibebe Birhanu and Hang-Hyun Jo, "Maximum likelihood estimation of burst-merging kernels for bursty time series." This repository includes implementations and tools used to estimate burst-merging kernels in bursty time series data.
 
 File/folder description
 
-   1.  /header: header files
+   1.  /header: header files containing necessary functions for the analysis
 
-   2.  /burst tree: burst merging kernel analysis using burst-tree decomposition method
+   2.  /burst_tree: burst merging kernel analysis using burst-tree decomposition method
       
         main.c: main c file
 
