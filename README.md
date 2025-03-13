@@ -15,6 +15,6 @@ File/folder description
 
         run.sh: shell script for compiling and running the program
 
-        timings_example.txt: time series of health subject heartbeat date containing 100000 events
+        timings_example.txt: a time series dataset of heartbeats from a health subject, containing 100,000 events.
 
         /sample_result: the results files using "timings_example.txt"
