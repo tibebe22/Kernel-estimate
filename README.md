@@ -1,5 +1,5 @@
 # Codes for the maximum likelihood estimation method of burst-merging kernels
-Authors: Hang-Hyun Jo and Tibebe Birhanu (tibebebirhanu@gmail.com)
+Authors: Tibebe Birhanu (tibebebirhanu@gmail.com) and Hang-Hyun Jo (h2jo23@gmail.com)
 
 Updated date: 13 March 2025
 
