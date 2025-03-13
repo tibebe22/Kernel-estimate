@@ -1,5 +1,5 @@
 # Kernel-estimate
-Author: Hang-Hyun Jo and Tibebe Birhanu(tibebebirhanu@gmail.com)
+Author: Hang-Hyun Jo and Tibebe Birhanu (tibebebirhanu@gmail.com)
 
 Updated date: 13 March 2025
 
