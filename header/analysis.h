@@ -45,15 +45,8 @@ long get_iet_sequence_from_timings(long *timings, long n, long *iet_sequence){
     return iet_max;
 }
 
-
-
 void get_ready(char *folder, char *filename, long *timings, long *iet_sequence, long **tree, long num_event, long isTreeRead){
     long num_iet;
-
-    /* read timings
-    timings = vector_long(0, num_event_max);
-    num_event = read_timings(timings, num_event_max, filename, folder);
-    */
 
     num_iet = num_event - 1;
 
@@ -72,7 +65,6 @@ void get_ready(char *folder, char *filename, long *timings, long *iet_sequence, 
     }
 }
 
-
 void burst_analysis_option(char *folder, char *filename, long ens, long *timings, long *iet_sequence, long **tree, long num_event, char *options){
     long i, j, k, num_iet, train_Dts[6], num_Dt;
     double autocorrel_params[3], logbin_params[3];
@@ -88,7 +80,4 @@ void burst_analysis_option(char *folder, char *filename, long ens, long *timings
         logbin_params[0] = 5; logbin_params[1] = 0.18;
         get_kernel2DLog(folder, filename_ens, tree, num_iet, logbin_params);
     }
-
 }
-
-
