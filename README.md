@@ -9,7 +9,7 @@ File/folder description
 
    1.  /header: header files containing necessary functions for the analysis
 
-   2.  /burst_tree: burst merging kernel analysis using burst-tree decomposition method
+   2.  /run: burst merging kernel analysis using burst-tree decomposition method
       
         main.c: main c file
 
