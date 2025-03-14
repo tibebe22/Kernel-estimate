@@ -1,4 +1,4 @@
-// Author: Hang-Hyun Jo and Tibebe Birhanu
+// Authors: Hang-Hyun Jo and Tibebe Birhanu
 // Description: functions for detecting and processing tree structure
 
 /************ DETECTING TREE *****************/
@@ -145,48 +145,45 @@ void read_tree(char *folder, char *filename, long **tree, long num_iet){
             tree[i][j] = x;
         }
     }
-
     fclose(tree_in);
 }
 
 /************ QUANTIFYING TREE: kernel  *********/
 
-
 //get the distribution of Ms
 void get_Ms(long **tree, double **Ms, long num_iet, long num_event_temp){
-     long i, j, k, train1, train2;
-     
-     for(i = 1; i <= num_event_temp; i++){
+    long i, j, k, train1, train2;
+    
+    for(i = 1; i <= num_event_temp; i++){
         for(j = 1; j <= num_event_temp; j++){
             Ms[i][j] = 0;
         }
-     }
+    }
      
-     for(i = 0; i< num_iet; i++){
+    for(i = 0; i< num_iet; i++){
         train1 = tree[i][4];
         train2 = tree[i][5];
         if(train1 <= num_event_temp && train2 <= num_event_temp)
-        Ms[train1][train2]++;
-     }
-    
+            Ms[train1][train2]++;
+    }
 }
 
 // get train distribution for entire time step
 void get_train_distribution(long **tree, double **Q_all, long *train_distr, long num_event, long num_event_temp){
-     long i, j, k, train1, train2, train, train_min, num_iet;
-     double n_1;
-     num_iet = num_event - 1;
-     for(i = 0; i < num_iet; i++){
+    long i, j, k, train1, train2, train, train_min, num_iet;
+    double n_1;
+    num_iet = num_event - 1;
+    for(i = 0; i < num_iet; i++){
         for(j = 1; j <= num_event_temp; j++){
             Q_all[i][j] = 0;
         }
-     }
+    }
      
-     for(i = 1; i < num_event; i ++) train_distr[i] = 0;
-        train_distr[num_event] = 1;
-        train_min = num_event;
+    for(i = 1; i < num_event; i ++) train_distr[i] = 0;
+    train_distr[num_event] = 1;
+    train_min = num_event;
         
-     for(i = 0; i < num_iet; i++){
+    for(i = 0; i < num_iet; i++){
         train1 = tree[i][4];
         train2 = tree[i][5];
         train = train1 + train2;
@@ -199,66 +196,64 @@ void get_train_distribution(long **tree, double **Q_all, long *train_distr, long
         train_distr[train2] ++;
         n_1 = 1. /(double)(i + 2);
         for(j = train_min; j <= num_event_temp; j++){
-           Q_all[i][j] = n_1 * train_distr[j];      
+            Q_all[i][j] = n_1 * train_distr[j];      
         }
-     }   
+    }   
 }
 
 //find the sum of the denumenator part of the kernel equation
 double get_sum_denominator(double **Q_all, double **prev_kernel, long train_min, long num_event_temp, long s){
-       long i, j, k;
-       double summ;
+    long i, j, k;
+    double summ;
        
-       summ = 0.;
-       for(j = train_min; j <= num_event_temp; j++){
-          for(k = train_min; k <= num_event_temp; k++){
-              if(Q_all[s][j] && Q_all[s][k] && prev_kernel[j][k])
-              summ += Q_all[s][j] * Q_all[s][k] * prev_kernel[j][k];
-          }
-       }
-       return summ;
-    
+    summ = 0.;
+    for(j = train_min; j <= num_event_temp; j++){
+        for(k = train_min; k <= num_event_temp; k++){
+            if(Q_all[s][j] && Q_all[s][k] && prev_kernel[j][k])
+                summ += Q_all[s][j] * Q_all[s][k] * prev_kernel[j][k];
+        }
+    }
+    return summ;
 }
-
 
 //the log likelihood 
 double get_likelihood(long **tree, double **Q_all, double **P, long num_iet, long num_event_temp){
-       long i, j, k, train_min, train1, train2, num_event;
-       double sum_temp, summ1, summ2, likeli;
+    long i, j, k, train_min, train1, train2, num_event;
+    double sum_temp, summ1, summ2, likeli;
        
-       summ1 = 0.;
-       summ2 = 0.;
-       sum_temp = 0.;
-       num_event = num_iet + 1;
-       train_min = num_event;
-       for(i = 0; i < num_iet; i++){
-          train1 = tree[i][4];
-          train2 = tree[i][5];
-          if(train1 < train_min)train_min = train1;
-          if(train2 < train_min)train_min = train2;
-          for(j = train_min; j <= num_event_temp; j++){
-             for(k = train_min; k <= num_event_temp; k++){
-                 if(Q_all[i][j] && Q_all[i][k] && P[j][k]) sum_temp += Q_all[i][j] * Q_all[i][k] * P[j][k];  
-             } 
-          }      
-          if(sum_temp) summ2 += log(sum_temp);
-          if(train1 <= num_event_temp && train2 <= num_event_temp && P[train1][train2])
-          summ1 += log(P[train1][train2]);
-       }
-          likeli = summ1 - summ2;
-       return likeli;
+    summ1 = 0.;
+    summ2 = 0.;
+    sum_temp = 0.;
+    num_event = num_iet + 1;
+    train_min = num_event;
+    for(i = 0; i < num_iet; i++){
+        train1 = tree[i][4];
+        train2 = tree[i][5];
+        if(train1 < train_min)train_min = train1;
+        if(train2 < train_min)train_min = train2;
+        for(j = train_min; j <= num_event_temp; j++){
+            for(k = train_min; k <= num_event_temp; k++){
+                if(Q_all[i][j] && Q_all[i][k] && P[j][k]) sum_temp += Q_all[i][j] * Q_all[i][k] * P[j][k];  
+            } 
+        }      
+        if(sum_temp) summ2 += log(sum_temp);
+        if(train1 <= num_event_temp && train2 <= num_event_temp && P[train1][train2])
+            summ1 += log(P[train1][train2]);
+    }
+    likeli = summ1 - summ2;
+    return likeli;
 }
 
 //update the kernels
 void update_kernel(double **kernel2D, double **prev_kernel, long num_event_temp){
-     long i, j, k;
-     for(i = 1; i <= num_event_temp; i++){
+    long i, j, k;
+    for(i = 1; i <= num_event_temp; i++){
         for(j = 1; j <= num_event_temp; j++){
             prev_kernel[i][j] = kernel2D[i][j];
         }
-     }
-
+    }
 }
+
 // estimate K(b,b') for conserving the correlations between b and b'
 void get_kernel2D(long **tree, long num_iet, long num_event_temp, double **kernel2D){
     long i, j, k, num_event, train_min, train, train1, train2;
@@ -270,29 +265,19 @@ void get_kernel2D(long **tree, long num_iet, long num_event_temp, double **kerne
     diff = 1.;
     num_event = num_iet + 1;
     train_distr = vector_long(1, num_event);
-/*
-    QQ = matrix_double(1, num_event_temp, 1, num_event_temp);
-    Ms = matrix_double(1, num_event_temp, 1, num_event_temp);
-    Q_all = matrix_double(0, num_iet - 1, 1, num_event_temp);
-    prev_kernel = matrix_double(1, num_event_temp, 1, num_event_temp); 
-    if(QQ == NULL ||Ms == NULL ||Q_all == NULL ||prev_kernel == NULL ){
-       printf("can not allocate the memory");
-    }*/
     if (num_event_temp > 0 && num_event_temp <= SIZE_MAX / sizeof(double)) {
-    QQ = matrix_double(1, num_event_temp, 1, num_event_temp);
-    Ms = matrix_double(1, num_event_temp, 1, num_event_temp);
-    Q_all = matrix_double(0, num_iet - 1, 1, num_event_temp);
-    prev_kernel = matrix_double(1, num_event_temp, 1, num_event_temp); 
+        QQ = matrix_double(1, num_event_temp, 1, num_event_temp);
+        Ms = matrix_double(1, num_event_temp, 1, num_event_temp);
+        Q_all = matrix_double(0, num_iet - 1, 1, num_event_temp);
+        prev_kernel = matrix_double(1, num_event_temp, 1, num_event_temp); 
     } 
-      else {
-           printf("Invalid size for allocation, potential overflow detected.\n");
-     }
+    else {
+        printf("Invalid size for allocation, potential overflow detected.\n");
+    }
      
     for(i = 1; i <= num_event_temp; i ++){ // i = 0 is for Q(b), otherwise kernel2D[b][b']
         for(j = 1; j <= num_event_temp; j ++){
             prev_kernel[i][j] = 1;
-            //kernel2D[i][j] = 0;
-            //QQ[i][j] = 0;
         }
     }
     //get the distribution of Ms
@@ -301,70 +286,58 @@ void get_kernel2D(long **tree, long num_iet, long num_event_temp, double **kerne
     //get train distribution for entire time step
     get_train_distribution(tree, Q_all, train_distr, num_event, num_event_temp);
     
-    
-   
     //printf("kernel 1\n");
-    while(diff > epsilon){
-     
-         train_min = num_event;
-         for(i = 1; i <= num_event_temp; i ++){ // i = 0 is for Q(b), otherwise kernel2D[b][b']
-             for(j = 1; j <= num_event_temp; j ++){
-                 kernel2D[i][j] = 0;
-                 QQ[i][j] = 0;
+    while(diff > epsilon){ 
+        train_min = num_event;
+        for(i = 1; i <= num_event_temp; i ++){ // i = 0 is for Q(b), otherwise kernel2D[b][b']
+            for(j = 1; j <= num_event_temp; j ++){
+                kernel2D[i][j] = 0;
+                QQ[i][j] = 0;
             }
-         } 
+        } 
          
-         for(i = 0; i < num_iet; i ++){
+        for(i = 0; i < num_iet; i ++){
             train1 = tree[i][4];
             train2 = tree[i][5];
-         
-           if(train1 < train_min) train_min = train1;
-           if(train2 < train_min) train_min = train2;
-       
-          sum_denom = get_sum_denominator(Q_all, prev_kernel, train_min, num_event_temp, i); 
-          for(j = train_min; j <= num_event_temp; j ++){
-              for(k = train_min; k <= num_event_temp; k ++){
-                  if(Q_all[i][j] && Q_all[i][k] && sum_denom){
-                      QQ[j][k] += (Q_all[i][j] * Q_all[i][k]) / sum_denom;                    
-                  }
-              }
-          }
-
-       
-      }
-    
-    //printf("kernel 2\n");
-    
-    for(i = train_min; i <= num_event_temp; i ++){
-        for(j = train_min; j <= num_event_temp; j ++){
-            if(Ms[i][j] && QQ[i][j])
-                kernel2D[i][j] = Ms[i][j] / QQ[i][j];
-            
+            if(train1 < train_min) train_min = train1;
+            if(train2 < train_min) train_min = train2;
+            sum_denom = get_sum_denominator(Q_all, prev_kernel, train_min, num_event_temp, i); 
+            for(j = train_min; j <= num_event_temp; j ++){
+                for(k = train_min; k <= num_event_temp; k ++){
+                    if(Q_all[i][j] && Q_all[i][k] && sum_denom){
+                        QQ[j][k] += (Q_all[i][j] * Q_all[i][k]) / sum_denom;                    
+                    }
+                }
+            }
         }
-    }
-    //normalize the kernel
-    for(i = train_min; i <= num_event_temp; i ++){
-        for(j = train_min; j <= num_event_temp; j ++){
-            if(kernel2D[1][1])
-                kernel2D[i][j] = kernel2D[i][j]/kernel2D[1][1];
-            
+    
+        for(i = train_min; i <= num_event_temp; i ++){
+            for(j = train_min; j <= num_event_temp; j ++){
+                if(Ms[i][j] && QQ[i][j])
+                    kernel2D[i][j] = Ms[i][j] / QQ[i][j];
+            }
         }
+        
+        //normalize the kernel
+        for(i = train_min; i <= num_event_temp; i ++){
+            for(j = train_min; j <= num_event_temp; j ++){
+                if(kernel2D[1][1])
+                    kernel2D[i][j] = kernel2D[i][j]/kernel2D[1][1];
+            }
+        }
+    
+        prev_loglikeli = get_likelihood(tree, Q_all, prev_kernel, num_iet, num_event_temp);
+        printf("the previous loglikelihood %lf\n", prev_loglikeli);
+        curr_loglikeli = get_likelihood(tree, Q_all, kernel2D, num_iet, num_event_temp);
+        printf("the current loglikelihood %lf\n", curr_loglikeli);
+    
+        //the condtion is
+        diff = fabs(curr_loglikeli - prev_loglikeli) / ( fabs(prev_loglikeli) + 1 );
+        // printf("the condtion value %lf\n", diff); 
+    
+        //update  the kernels
+        update_kernel(kernel2D, prev_kernel, num_event_temp); 
     }
-    
-    prev_loglikeli = get_likelihood(tree, Q_all, prev_kernel, num_iet, num_event_temp);
-    printf("the previous loglikelihood %lf\n", prev_loglikeli);
-    
-    
-    curr_loglikeli = get_likelihood(tree, Q_all, kernel2D, num_iet, num_event_temp);
-    printf("the current loglikelihood %lf\n", curr_loglikeli);
-    
-    //the condtion is
-    diff = fabs(curr_loglikeli - prev_loglikeli) / ( fabs(prev_loglikeli) + 1 );
-   // printf("the condtion value %lf\n", diff); 
-    
-    //update  the kernels
-    update_kernel(kernel2D, prev_kernel, num_event_temp); 
-     }
     free_vector_long(train_distr, 1, num_event);
     free_matrix_double(QQ, 1, num_event_temp, 1, num_event_temp);
     free_matrix_double(Ms, 1, num_event_temp, 1, num_event_temp);
@@ -518,4 +491,3 @@ void get_kernel2DLog(char *folder, char *filename, long **tree, long num_iet, do
     free_matrix_double(kernel2DLog, 0, num_bin, 0, num_bin);
     free_matrix_long(nums, 0, num_bin, 0, num_bin);
 }
-
