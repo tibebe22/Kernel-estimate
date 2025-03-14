@@ -7,13 +7,12 @@
 #include <time.h>
 #include<stdint.h>
 
-#include "common_memory.h"
-#include "common_MersenneTwister.h"
-#include "common_sort.h"
+#include "memory.h"
+#include "MersenneTwister.h"
+#include "sort.h"
 
 
 
-//#include "readWrite.h"
 #include "analysis.h"
 #include "tree.h"
 #include "main.h"
