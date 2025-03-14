@@ -5,13 +5,10 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
-#include<stdint.h>
+#include <stdint.h>
 
 #include "memory.h"
 #include "MersenneTwister.h"
 #include "sort.h"
-
-
-
 #include "tree.h"
 #include "analysis.h"
