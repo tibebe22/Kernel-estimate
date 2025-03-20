@@ -7,7 +7,7 @@ Codes developed for the research paper: Tibebe Birhanu and Hang-Hyun Jo, "Maximu
 
 File/folder description
 
-   1.  /header: header files containing necessary functions for the analysis
+   1.  /header: header files containing necessary functions for the [analysis](http://h2jo.xyz)
 
    2.  /run: execution files
       
