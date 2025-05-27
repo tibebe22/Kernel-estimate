@@ -3,7 +3,7 @@ Authors: Tibebe Birhanu (tibebebirhanu@gmail.com) and Hang-Hyun Jo (h2jo23@gmail
 
 Updated date: 14 March 2025
 
-Codes developed for the research paper: Tibebe Birhanu and Hang-Hyun Jo, "Maximum likelihood estimation of burst-merging kernels for bursty time series" [[arXiv:2503.14861](https://arxiv.org/abs/2503.14861)]. This repository includes implementations and tools used to estimate burst-merging kernels in bursty time series data.
+Codes developed for the research paper: Tibebe Birhanu and Hang-Hyun Jo, "Maximum likelihood estimation of burst-merging kernels for bursty time series" Physical Review E 111, 054317 (2025) [[link](https://journals.aps.org/pre/abstract/10.1103/PhysRevE.111.054317), [arXiv:2503.14861](https://arxiv.org/abs/2503.14861)]. This repository includes implementations and tools used to estimate burst-merging kernels in bursty time series data.
 
 File/folder description
 
